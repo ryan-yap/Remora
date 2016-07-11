@@ -46,11 +46,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser('a@1s0OIW<cP_9^2'));
 
 
-app.use('/', routes);
+app.use('/', express.static('static'));
 app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/schedules', schedules);
 app.use('/reviews', reviews);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
