@@ -6,7 +6,7 @@ var db = mongoose.createConnection('mongodb://localhost/User');
 var Schema = mongoose.Schema;
 
 var userDB = db.model('User', new Schema({
-    username: { type: String, required: true, unique: true },
+    username: { type: String, required: true, unique: false },
     created_at: { type: Date, required: true, unique: false },
     facebookID: { type: String, required: true, unique: true },
     rating: {type:Number, required:true, unique:false},
