@@ -85,6 +85,7 @@ passport.use('signup', new LocalStrategy({
                             console.log(newUser);
                             done(null, newUser);
                         }else{
+                            console.log("Error Creating new user");
                             return done(null, false);
                         }
                     });
