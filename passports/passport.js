@@ -67,7 +67,6 @@ passport.use('signup', new LocalStrategy({
             console.log(facebookID);
 
             var d = User.find({username:username, facebookID:facebookID}, function(error, curr_data) {
-                console.log(curr_data);
                 if(curr_data.length <= 0) { // check to make sure only unique entries are entered
                     // find a user in Mongo with provided username
                     var newUser = new User({
@@ -86,12 +85,12 @@ passport.use('signup', new LocalStrategy({
                             console.log(newUser);
                             done(null, newUser);
                         }else{
-                            console.log("Error Creating new user");
+                            console.log("User already exists! Provide a different username");
                             return done(null, false);
                         }
                     });
                 }else{
-                    console.log("user created!");
+                    console.log("User already created! Now log in");
                     done(null, curr_data);
                 }
             });
