@@ -67,6 +67,7 @@ passport.use('signup', new LocalStrategy({
             console.log(facebookID);
 
             var d = User.find({username:username, facebookID:facebookID}, function(error, curr_data) {
+                console.log(curr_data);
                 if(curr_data.length <= 0) { // check to make sure only unique entries are entered
                     // find a user in Mongo with provided username
                     var newUser = new User({
