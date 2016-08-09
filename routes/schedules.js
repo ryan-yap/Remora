@@ -265,6 +265,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
             res.json(json);
         }else{
             res.statusCode = 400;
+            console.log(err);
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to create new schedule");
             res.json(json);
         }
