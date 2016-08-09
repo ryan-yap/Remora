@@ -19,8 +19,7 @@ var scheduleDB = db.model('Schedule', new Schema({
     flexibility_late : {type: Number, required: false, unique : false},
     number_of_seat : {type: Number, required: true, unique : false},
     type : {type : String, required: true, unique: false},
-    driver_fare : {type : Number, required: true, unique: false},
-    passenger_fare : {type : Number, required: false, unique: false},
+    fare : {type : Number, required: true, unique: false},
     accepted : {type : Boolean, required: true, unique: false},
     origin_location: {
         type: [Number],  // [<longitude>, <latitude>]

@@ -250,7 +250,8 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         flexibility_late :  new Date(data.time*1000).getTime() + data.flexibility_late*60*1000,
         number_of_seat : data.number_of_seat,
         type : data.type,
-        fare : data.fare,
+        passenger_fare : data.passenger_fare,
+        driver_fare : date.driver_fare,
         accepted : false,
         origin_location: [data.fromLongitude, data.fromLatitude],
         destination_location: [data.toLongitude, data.toLatitude]
