@@ -12,6 +12,7 @@ var router = express.Router();
  * destination_location, and scheduled time.
  * */
 router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
+    console.log("Getting Schedule")
     var limit = req.query.limit || 10;
     var maxDistance = req.query.radius || 1;
     var time = req.query.time*1000;
