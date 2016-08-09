@@ -347,6 +347,7 @@ function ensureAuthenticated(req, res, next) {
     if (req.user) {
         return next();
     }
+    console.log("Authentication Failed")
     res.redirect('/');
 }
 
