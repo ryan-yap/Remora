@@ -253,7 +253,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         number_of_seat : data.number_of_seat,
         type : data.type,
         passenger_fare : data.passenger_fare,
-        driver_fare : date.driver_fare,
+        driver_fare : data.driver_fare,
         accepted : false,
         origin_location: [data.fromLongitude, data.fromLatitude],
         destination_location: [data.toLongitude, data.toLatitude]
