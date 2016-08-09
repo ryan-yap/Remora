@@ -242,6 +242,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
     if(data.passengerID != null){
         passengers.push(data.passengerID);
     }
+    console.log(data);
     var newSchedule = new Schedule({
         passengers: passengers,
         driverID : data.driverID,
