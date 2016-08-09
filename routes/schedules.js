@@ -248,8 +248,8 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         driverID : data.driverID,
         created_at: new Date().getTime(),
         time : new Date(data.time*1000).getTime(),
-        flexibility_early : new Date(data.time*1000).getTime() - data.flexibility_early*60*1000,
-        flexibility_late :  new Date(data.time*1000).getTime() + data.flexibility_late*60*1000,
+        flexibility_early : new Date(data.flexibility_early*1000).getTime(),
+        flexibility_late :  new Date(data.flexibility_late*1000).getTime(),
         number_of_seat : data.number_of_seat,
         type : data.type,
         passenger_fare : data.passenger_fare,
@@ -258,7 +258,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         origin_location: [data.fromLongitude, data.fromLatitude],
         destination_location: [data.toLongitude, data.toLatitude]
     });
-
+    console.log(newSchedule);
     newSchedule.save(function(err) {
         if (!err) {
             var json = new JsonResponse(newSchedule, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, null);
