@@ -243,6 +243,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         passengers.push(data.passengerID);
     }
     console.log(data);
+    console.log(data.toLatitude);
     var newSchedule = new Schedule({
         passengers: passengers,
         driverID : data.driverID,
