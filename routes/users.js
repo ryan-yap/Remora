@@ -11,7 +11,7 @@ var validData = [
 /* GET users listing. */
 router.get('/', ensureAuthenticated, function(req, res, next) {
   console.log(req.user);
-  res.send('respond with a resource');
+  res.json(req.user);
 });
 
 router.post('/',passport.authenticate('signup', { failureRedirect: '/' }),function(req, res, next) {
