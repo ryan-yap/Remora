@@ -242,10 +242,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
     if(data.passengerID != null){
         passengers.push(data.passengerID);
     }
-    console.log(data);
-    console.log(data.toLatitude);
-    var destination_location = [data.toLongitude, data.toLatitude];
-    console.log(destination_location);
+
     var newSchedule = new Schedule({
         passengers: passengers,
         driverID : data.driverID,
@@ -258,7 +255,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         passenger_fare : data.passenger_fare,
         driver_fare : data.driver_fare,
         accepted : false,
-        destination_location: destination_location,
+        destination_location: [data.toLongitude, data.toLatitude],
         origin_location: [data.fromLongitude, data.fromLatitude]
 
     });
