@@ -258,6 +258,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         origin_location: [data.fromLongitude, data.fromLatitude],
         destination_location: [data.toLongitude, data.toLatitude]
     });
+
     console.log(newSchedule);
     newSchedule.save(function(err) {
         if (!err) {
@@ -265,7 +266,7 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
             res.json(json);
         }else{
             res.statusCode = 400;
-            console.log(err);
+            console.log(err.message);
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to create new schedule");
             res.json(json);
         }
