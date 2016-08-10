@@ -66,6 +66,10 @@ router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
             type: "Offer A Ride"
         }
     }
+    console.log("Origin Query");
+    console.log(origin_query);
+    console.log("Destination Query");
+    console.log(destination_query);
 
     Schedule.find(origin_query,function(err, schedules_with_same_org) {
         if (err) {
