@@ -15,7 +15,7 @@ router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
     console.log("Getting Schedule")
     var limit = req.query.limit || 10;
     var maxDistance = req.query.radius || 1;
-    var time = req.query.time*1000;
+    //var time = req.query.time*1000;
     maxDistance /= 6371;
 
     var origin_coords = [];
@@ -29,7 +29,7 @@ router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
     var origin_query = {};
     var destination_query = {};
     if(req.query.time != null) {
-        var time = req.query.time * 1000;
+        var time = req.query.time;
         origin_query = {
             origin_location: {
                 $near: origin_coords,
