@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, req.user.facebookID)
+        cb(null, "ryan")
     }
 });
 
@@ -63,9 +63,7 @@ router.get('/car/uploads', ensureAuthenticated, function (req, res, next) {
     res.json(json);
 });
 
-router.post('/car/uploads', ensureAuthenticated, multer({storage: storage}), function (req, res, next) {
-    console.log("facebookID");
-    console.log(req.header("facebookID"));
+router.post('/car/uploads', ensureAuthenticated, upload.single('avatar'), function (req, res, next) {
     var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
     res.json(json);
 });
