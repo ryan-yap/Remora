@@ -59,12 +59,12 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
 });
 
 router.get('/car/uploads', ensureAuthenticated, function (req, res, next) {
-    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, nil);
+    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
     res.json(json);
 });
 
 router.post('/car/uploads', ensureAuthenticated, upload.single('avatar'), function (req, res, next) {
-    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, nil);
+    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
     res.json(json);
 });
 
