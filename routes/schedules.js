@@ -210,7 +210,7 @@ router.get('/:id', ensureAuthenticated, function (req, res, next){
 /**
  * Get all the drivers' schedules.
  */
-router.get('/drivers', ensureAuthenticated, function(req, res, next){
+router.get('/all/drivers', ensureAuthenticated, function(req, res, next){
     Schedule.find({
         type: "Offer A Ride"
     },function(err, drivers_schedules) {
@@ -227,7 +227,7 @@ router.get('/drivers', ensureAuthenticated, function(req, res, next){
 /**
  * Get all the passengers' schedules.
  */
-router.get('/passengers', ensureAuthenticated, function(req, res, next){
+router.get('/all/passengers', ensureAuthenticated, function(req, res, next){
     Schedule.find({
         type: "Need A Ride"
     },function(err, drivers_schedules) {
