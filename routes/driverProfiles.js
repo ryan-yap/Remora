@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         console.log(file);
-        cb(null, req.headers["facebookID"])
+        cb(null, "temp")
     }
 });
 
@@ -65,7 +65,7 @@ router.get('/car/uploads', ensureAuthenticated, function (req, res, next) {
 });
 
 router.post('/car/uploads', ensureAuthenticated, upload.single('avatar'), function (req, res, next) {
-    console.log(req.file);
+    console.log(req.header("facebookID"));
     var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
     res.json(json);
 });
