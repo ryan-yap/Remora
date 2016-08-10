@@ -12,6 +12,7 @@ var users = require('./routes/users');
 var sessions = require('./routes/sessions');
 var schedules = require('./routes/schedules');
 var reviews = require('./routes/reviews');
+var drivers = require('./routes/driverProfiles');
 var app = express();
 
 // view engine setup
@@ -51,6 +52,7 @@ app.use('/users', users);
 app.use('/sessions', sessions);
 app.use('/schedules', schedules);
 app.use('/reviews', reviews);
+app.use('/drivers', drivers);
 
 
 // catch 404 and forward to error handler
