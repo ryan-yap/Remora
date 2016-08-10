@@ -76,11 +76,13 @@ router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to find schedule from the same origin");
             res.json(json);
         }else{
+            console.log(schedules_with_same_org);
             Schedule.find(destination_query,function(err, schedules_with_same_dst) {
                 if (err) {
                     var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to find schedule to the same destination");
                     res.json(json);
                 }else {
+                    console.log(schedules_with_same_dst);
                     var rslt = [];
 
                     for(var i in schedules_with_same_dst){
