@@ -116,16 +116,16 @@ router.get('/match/passenger', ensureAuthenticated, function(req, res, next) {
     maxDistance /= 6371;
 
     var origin_coords = [];
-    origin_coords[0] = req.query.origin_longitude;
-    origin_coords[1] = req.query.origin_latitude;
+    origin_coords[0] = parseFloat(req.query.origin_longitude);
+    origin_coords[1] = parseFloat(req.query.origin_latitude);
 
     var destination_coords = [];
-    destination_coords[0] = req.query.destination_longitude;
-    destination_coords[1] = req.query.destination_latitude;
+    destination_coords[0] = parseFloat(req.query.destination_longitude);
+    destination_coords[1] = parseFloat(req.query.destination_latitude);
 
 
     if(req.query.time != null) {
-        var time = req.query.time * 1000;
+        var time = parseFloat(req.query.time);
         var origin_query = {
             origin_location: {
                 $near: origin_coords,
