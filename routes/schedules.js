@@ -14,7 +14,7 @@ var router = express.Router();
 router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
     console.log("Getting Schedule")
     var limit = req.query.limit || 10;
-    var maxDistance = req.query.radius || 10;
+    var maxDistance = req.query.radius || 100;
     //var time = req.query.time*1000;
     maxDistance /= 6371;
 
@@ -113,7 +113,7 @@ router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
 router.get('/match/passenger', ensureAuthenticated, function(req, res, next) {
     console.log("Getting Schedule!");
     var limit = req.query.limit || 10;
-    var maxDistance = req.query.radius || 1;
+    var maxDistance = req.query.radius || 100;
 
     maxDistance /= 6371;
 
