@@ -29,7 +29,7 @@ router.get('/match/driver', ensureAuthenticated, function(req, res, next) {
     var origin_query = {};
     var destination_query = {};
     if(req.query.time != null) {
-        var time = parseFloat(req.query.time);
+        var time = parseFloat(req.query.time * 1000);
         origin_query = {
             origin_location: {
                 $near: origin_coords,
@@ -127,7 +127,7 @@ router.get('/match/passenger', ensureAuthenticated, function(req, res, next) {
 
 
     if(req.query.time != null) {
-        var time = parseFloat(req.query.time);
+        var time = parseFloat(req.query.time * 1000);
         var origin_query = {
             origin_location: {
                 $near: origin_coords,
