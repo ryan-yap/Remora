@@ -6,11 +6,20 @@ var passport = require('../passports/passport.js');
 var DriverProfile = require('../objects/driverProfile');
 var User = require('../objects/user');
 var JsonResponse = require('../objects/jsonresponse');
-var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
 var router = express.Router();
 var validData = Object.keys(DriverProfile.schema.paths);
-var fs = require('fs');
+var multer  = require('multer');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, req.user.facebookID)
+    }
+});
+
+var upload = multer({ storage: storage });
 
 router.get('/',ensureAuthenticated,function(req, res, next){
     var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
@@ -49,18 +58,9 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     });
 });
 
-router.post('/profile', ensureAuthenticated, upload.single('avatar'), function (req, res, next) {
-    fs.writeFile("../../cars/" + req.user.facebookID + "." + req.file.mimetype, req.file, function(err) {
-        if(err) {
-            var json = new JsonResponse(nil, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Error Writing to file");
-            res.json(json);
-            return
-        }
-        console.log(req.files)
-        var json = new JsonResponse("Written to file successfully", "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, nil);
-        res.json(json);
-        return
-    });
+router.post('/car/uploads', upload.single('avatar'), function (req, res, next) {
+    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, nil);
+    res.json(json);
 });
 
 function ensureAuthenticated(req, res, next) {

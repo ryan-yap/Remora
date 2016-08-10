@@ -13,6 +13,7 @@ var sessions = require('./routes/sessions');
 var schedules = require('./routes/schedules');
 var reviews = require('./routes/reviews');
 var drivers = require('./routes/driverProfiles');
+
 var app = express();
 
 // view engine setup
@@ -26,6 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static('uploads'));
 
 // Configuration for cookie storage.
 var MongoStore = require('connect-mongo')(expressSession);
@@ -53,7 +55,6 @@ app.use('/sessions', sessions);
 app.use('/schedules', schedules);
 app.use('/reviews', reviews);
 app.use('/drivers', drivers);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
