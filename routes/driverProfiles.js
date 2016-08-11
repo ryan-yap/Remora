@@ -53,7 +53,7 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     user.driverProfile = true;
     newProfile.save(function(err) {
         if (!err) {
-            User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
+            User.findOneAndUpdate({facebookID: user.facebookID}, user, {upsert: true}, function (err, doc) {
                 if (err){
                     var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
                     res.json(json);
