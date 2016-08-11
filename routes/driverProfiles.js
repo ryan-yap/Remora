@@ -36,7 +36,7 @@ router.get('/',ensureAuthenticated,function(req, res, next){
     });
 });
 
-router.post('/',ensureAuthenticated, validateData, function(req, res, next){
+router.post('/',ensureAuthenticated, function(req, res, next){
     var data = req.validatedData;
     var user = req.user[0];
     var newProfile = new DriverProfile({
