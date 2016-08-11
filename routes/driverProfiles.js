@@ -64,6 +64,7 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
             });
         }else{
             res.statusCode = 400;
+            console.log(err);
             var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to save driver's profile");
             res.json(json);
         }
