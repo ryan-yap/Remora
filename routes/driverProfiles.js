@@ -25,6 +25,7 @@ router.get('/',ensureAuthenticated,function(req, res, next){
     var id = req.user.facebookID;
     DriverProfile.findById(id, function(err, driverProfile) {
         if (!err) {
+            console.log("Retrieving driver profile with ID = " + id);
             var json = new JsonResponse(driverProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
             res.json(json);
         }else{
