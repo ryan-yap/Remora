@@ -88,11 +88,11 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
 
             DriverProfile.findOneAndUpdate({_id : user.facebookID}, driverprofile, {upsert: true}, function (err, doc) {
                 if (err){
-                    var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
+                    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
                     res.json(json);
                     return
                 }
-                var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
+                var json = new JsonResponse(driverprofile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
                 res.json(json);
             });
 
