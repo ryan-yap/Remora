@@ -22,8 +22,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.get('/',ensureAuthenticated,function(req, res, next){
-    var id = req.user.facebookID;
-    console.log(req.user);
+    var id = req.user[0].facebookID;
     DriverProfile.findById(id, function(err, driverProfile) {
         if (!err) {
             console.log("Retrieving driver profile with ID = " + id);
@@ -39,7 +38,7 @@ router.get('/',ensureAuthenticated,function(req, res, next){
 // Deleting a session for the user. Eg. logging the user out.
 router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     var data = req.validatedData;
-    var user = req.user;
+    var user = req.user[0];
     var newProfile = new DriverProfile({
         carplate:data.carplate,
         carbrand:data.carbrand,
