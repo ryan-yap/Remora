@@ -22,8 +22,16 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.get('/',ensureAuthenticated,function(req, res, next){
-    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
-    res.json(json);
+    var id = req.user.facebookID;
+    DriverProfile.findById(id, function(err, driverProfile) {
+        if (!err) {
+            var json = new JsonResponse(driverProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
+            res.json(json);
+        }else{
+            var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to retrieve profile");
+            res.json(json);
+        }
+    });
 });
 
 // Deleting a session for the user. Eg. logging the user out.
