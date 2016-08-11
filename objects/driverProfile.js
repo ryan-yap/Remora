@@ -10,8 +10,8 @@ var Schema = mongoose.Schema;
 
 var driverDB = db.model('DriverProfile', new Schema({
     _id: Number,
-    carplate:{type:String,required: false, unique:true},
-    carbrand:{type:String, required:false, unique:true},
+    carplate:{type:String,required: false, unique:false},
+    carbrand:{type:String, required:false, unique:false},
     model:{type:String, required:false, unique:false},
     color:{type:String, required:false, unique:false},
     year:{type:String, required:false, unique:false},
