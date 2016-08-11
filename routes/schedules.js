@@ -266,8 +266,9 @@ router.post('/', ensureAuthenticated, function(req, res, next) {
         driver_fare : data.driver_fare,
         accepted : false,
         destination_location: [data.toLongitude, data.toLatitude],
-        origin_location: [data.fromLongitude, data.fromLatitude]
-
+        destination_address: data.destination_address,
+        origin_location: [data.fromLongitude, data.fromLatitude],
+        origin_address: data.origin_address
     });
 
     console.log(newSchedule);

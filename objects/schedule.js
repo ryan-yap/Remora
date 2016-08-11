@@ -33,7 +33,9 @@ var scheduleDB = db.model('Schedule', new Schema({
         index: '2d',      // create the geospatial index
         required: true,
         unique: false
-    }
+    },
+    origin_address : {type : String, required: true, unique : false},
+    destination_address : {type : String, required: true, unique : false}
 }));
 
 module.exports = scheduleDB;
