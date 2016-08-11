@@ -23,7 +23,7 @@ var upload = multer({ storage: storage });
 
 router.get('/',ensureAuthenticated,function(req, res, next){
     var id = req.user.facebookID;
-    console.log(req.user.facebookID);
+    console.log(req.user);
     DriverProfile.findById(id, function(err, driverProfile) {
         if (!err) {
             console.log("Retrieving driver profile with ID = " + id);
