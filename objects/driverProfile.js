@@ -9,6 +9,7 @@ var db = mongoose.createConnection('mongodb://localhost/DriverProfile');
 var Schema = mongoose.Schema;
 
 var driverDB = db.model('DriverProfile', new Schema({
+    _id: Number,
     carplate:{type:String,required: false, unique:true},
     carbrand:{type:String, required:false, unique:true},
     model:{type:String, required:false, unique:false},

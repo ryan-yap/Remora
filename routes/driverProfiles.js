@@ -29,17 +29,18 @@ router.get('/',ensureAuthenticated,function(req, res, next){
             var json = new JsonResponse(driverProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
             res.json(json);
         }else{
+            console.log(err);
             var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to retrieve profile");
             res.json(json);
         }
     });
 });
 
-// Deleting a session for the user. Eg. logging the user out.
 router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     var data = req.validatedData;
     var user = req.user[0];
     var newProfile = new DriverProfile({
+        _id: user.facebookID,
         carplate:data.carplate,
         carbrand:data.carbrand,
         model:data.model,
@@ -53,12 +54,14 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     newProfile.save(function(err) {
         if (!err) {
             User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
-                if (err) return res.send({error: err});
-                var json = new JsonResponse(user, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
+                if (err){
+                    var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
+                    res.json(json);
+                    return
+                }
+                var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
                 res.json(json);
             });
-            var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
-            res.json(json);
         }else{
             res.statusCode = 400;
             var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to save driver's profile");
