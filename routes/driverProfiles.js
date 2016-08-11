@@ -39,21 +39,54 @@ router.get('/',ensureAuthenticated,function(req, res, next){
 router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     var data = req.validatedData;
     var user = req.user[0];
-    var newProfile = new DriverProfile({
-        _id: user.facebookID,
-        carplate:data.carplate,
-        carbrand:data.carbrand,
-        model:data.model,
-        color:data.color,
-        year:data.year,
-        doors:data.doors,
-        seats:data.seats
-    });
 
-    user.driverProfile = true;
-    newProfile.save(function(err) {
-        if (!err) {
-            User.findOneAndUpdate({facebookID: user.facebookID}, user, {upsert: true}, function (err, doc) {
+    var d = DriverProfile.find({_id:user.facebookID}, function(error, curr_data) {
+        if(curr_data.length <= 0) { // check to make sure only unique entries are entered
+            // find a user in Mongo with provided username
+            var newProfile = new DriverProfile({
+                _id: user.facebookID,
+                carplate:data.carplate,
+                carbrand:data.carbrand,
+                model:data.model,
+                color:data.color,
+                year:data.year,
+                doors:data.doors,
+                seats:data.seats
+            });
+
+            user.driverProfile = true;
+            
+            newProfile.save(function(err) {
+                if (!err) {
+                    User.findOneAndUpdate({facebookID: user.facebookID}, user, {upsert: true}, function (err, doc) {
+                        if (err){
+                            var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
+                            res.json(json);
+                            return
+                        }
+                        var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
+                        res.json(json);
+                    });
+                }else{
+                    res.statusCode = 400;
+                    console.log(err);
+                    var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to save driver's profile");
+                    res.json(json);
+                }
+            });
+        }else{
+            //Assuming there is only one entry
+            var driverprofile = curr_data[0];
+            console.log(driverprofile);
+            driverprofile.carplate = data.carplate;
+            driverprofile.carbrand = data.carbrand;
+            driverprofile.model = data.model;
+            driverprofile.color = data.color;
+            driverprofile.year = data.year;
+            driverprofile.doors = data.doors;
+            driverprofile.seats = data.seats;
+
+            DriverProfile.findOneAndUpdate({id : user.facebookID}, driverprofile, {upsert: true}, function (err, doc) {
                 if (err){
                     var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
                     res.json(json);
@@ -62,13 +95,10 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
                 var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
                 res.json(json);
             });
-        }else{
-            res.statusCode = 400;
-            console.log(err);
-            var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to save driver's profile");
-            res.json(json);
+
         }
     });
+
 });
 
 router.get('/car/uploads', ensureAuthenticated, function (req, res, next) {
