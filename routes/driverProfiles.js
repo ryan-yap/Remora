@@ -55,7 +55,7 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
             });
 
             user.driverProfile = true;
-            
+
             newProfile.save(function(err) {
                 if (!err) {
                     User.findOneAndUpdate({facebookID: user.facebookID}, user, {upsert: true}, function (err, doc) {
@@ -86,7 +86,7 @@ router.post('/',ensureAuthenticated, validateData, function(req, res, next){
             driverprofile.doors = data.doors;
             driverprofile.seats = data.seats;
 
-            DriverProfile.findOneAndUpdate({id : user.facebookID}, driverprofile, {upsert: true}, function (err, doc) {
+            DriverProfile.findOneAndUpdate({_id : user.facebookID}, driverprofile, {upsert: true}, function (err, doc) {
                 if (err){
                     var json = new JsonResponse(newProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to store driver profile");
                     res.json(json);
