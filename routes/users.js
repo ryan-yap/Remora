@@ -14,6 +14,20 @@ router.get('/', ensureAuthenticated, function(req, res, next) {
   res.json(req.user);
 });
 
+/* GET users listing. */
+router.get('/:id', ensureAuthenticated, function(req, res, next) {
+  var userID = req.params.id;
+  var d = User.find({facebookID:userID}, function(error, curr_data) {
+    if (curr_data.length <= 0) { // check to make sure only unique entries are entered
+      // find a user in Mongo with provided username
+      var json = new JsonResponse(null, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
+    }else{
+      var json = new JsonResponse(curr_data[0], "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
+    }
+    res.json(json);
+  })
+});
+
 router.post('/',passport.authenticate('signup', { failureRedirect: '/' }),function(req, res, next) {
   console.log("Creating Users");
   var user = req.user;
