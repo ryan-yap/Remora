@@ -36,6 +36,21 @@ router.get('/',ensureAuthenticated,function(req, res, next){
     });
 });
 
+router.get('/:id',ensureAuthenticated,function(req, res, next){
+    var id = req.params.id;
+    DriverProfile.findById(id, function(err, driverProfile) {
+        if (!err) {
+            console.log("Retrieving driver profile with ID = " + id);
+            var json = new JsonResponse(driverProfile, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, null);
+            res.json(json);
+        }else{
+            console.log(err);
+            var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to retrieve profile");
+            res.json(json);
+        }
+    });
+});
+
 router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     var data = req.validatedData;
     var user = req.user[0];
