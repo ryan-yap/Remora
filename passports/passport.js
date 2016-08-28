@@ -85,6 +85,7 @@ passport.use('signup', new LocalStrategy({
                             console.log(newUser);
                             done(null, newUser);
                         }else{
+                            console.log(err);
                             console.log("User already exists! Provide a different username");
                             return done(null, false);
                         }
