@@ -5,10 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressSession = require('express-session');
-var passport = require('./passports/passport');
-
-var mongo_express = require('mongo-express/lib/middleware');
-var mongo_express_config = require('./mongo_express_config');
+var passport = require('./passports/passport')
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -58,7 +55,6 @@ app.use('/sessions', sessions);
 app.use('/schedules', schedules);
 app.use('/reviews', reviews);
 app.use('/drivers', drivers);
-app.use('/db/web/interface', mongo_express(mongo_express_config));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
