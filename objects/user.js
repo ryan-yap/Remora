@@ -17,6 +17,5 @@ var userDB = db.model('User', new Schema({
     credit:{type: Number, required: true, unique: false},
     driverProfile:{type:Boolean, required:true, unique:false}
 }));
-
 // create a schema
 module.exports = userDB;

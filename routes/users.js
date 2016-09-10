@@ -42,6 +42,11 @@ router.put('/', ensureAuthenticated, validateData, function(req, res, next){
   for (var key in data){
     user[key] = data[key];
   }
+
+  var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
+  res.json(json);
+  return
+
   User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
     if (err) return res.send({error: err});
     var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
@@ -99,6 +104,7 @@ function validateData(req, res, next) {
   data = req.body;
   var rslt = {};
   for (var key in data)
+    console.log(key);
     if (isDataValid(key)) {
       rslt[key] = data[key];
     } else {
