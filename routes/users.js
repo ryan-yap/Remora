@@ -41,10 +41,10 @@ router.put('/', ensureAuthenticated, function(req, res, next){
   user = req.user;
 
   for (var key in data){
-    console.log(key);
+    console.log(data[key]);
     user[key] = data[key];
   }
-
+  console.log(user);
   var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
   res.json(json);
   return
