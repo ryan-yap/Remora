@@ -39,6 +39,7 @@ router.put('/', ensureAuthenticated, validateData, function(req, res, next){
   console.log(req.validatedData);
   data = req.validatedData;
   user = req.user;
+  console.log(data);
   for (var key in data){
     user[key] = data[key];
   }
