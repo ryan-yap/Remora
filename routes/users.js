@@ -31,14 +31,14 @@ router.get('/:id', ensureAuthenticated, function(req, res, next) {
 
 router.post('/',passport.authenticate('signup', { failureRedirect: '/' }),function(req, res, next) {
   console.log("Creating Users");
-  var user = req.user;
+  var user = req.user[0];
   var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
   res.json(json);
 });
 
 router.put('/', ensureAuthenticated, function(req, res, next){
   data = req.body;
-  user = req.user;
+  user = req.user[0];
 
   for (var key in data){
     console.log(data[key]);
@@ -57,7 +57,7 @@ router.put('/', ensureAuthenticated, function(req, res, next){
 });
 
 router.put('/ride', ensureAuthenticated, function(req, res, next){
-  user = req.user;
+  user = req.user[0];
   data = req.body;
   user.rideCompleted += 1;
   User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
