@@ -11,8 +11,7 @@ var validData = [
 
 /* GET users listing. */
 router.get('/', ensureAuthenticated, function(req, res, next) {
-  console.log(req.user);
-  res.json(req.user);
+  var json = new JsonResponse(req.user[0], "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
 });
 
 /* GET users listing. */
