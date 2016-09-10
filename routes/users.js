@@ -36,9 +36,8 @@ router.post('/',passport.authenticate('signup', { failureRedirect: '/' }),functi
   res.json(json);
 });
 
-router.put('/', ensureAuthenticated, validateData, function(req, res, next){
-  console.log(req.validatedData);
-  data = req.validatedData;
+router.put('/', ensureAuthenticated, function(req, res, next){
+  data = req.body;
   user = req.user;
   console.log(data);
   for (var key in data){
