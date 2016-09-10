@@ -5,7 +5,8 @@ var JsonResponse = require('../objects/jsonresponse');
 var User = require('../objects/user');
 var validData = [
     "address",
-    "email"
+    "email",
+    "phone_number"
 ];
 
 /* GET users listing. */
