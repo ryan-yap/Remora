@@ -37,13 +37,14 @@ router.post('/',passport.authenticate('signup', { failureRedirect: '/' }),functi
 
 router.put('/', ensureAuthenticated, validateData, function(req, res, next){
   console.log(req.validatedData);
+  data = req.validatedData;
   user = req.user;
   for (var key in data){
     user[key] = data[key];
   }
   User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
     if (err) return res.send({error: err});
-    var json = new JsonResponse(user, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, null);
+    var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
     res.json(json);
   });
 });
