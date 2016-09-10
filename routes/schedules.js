@@ -209,6 +209,47 @@ router.get('/:id', ensureAuthenticated, function (req, res, next){
     });
 });
 
+//TODO:
+/**
+ * GET a list of all the request by given facebook ID
+ * */
+router.get('/me/passengers', ensureAuthenticated, function (req, res, next){
+    var id = req.user[0].facebookID;
+
+    Schedule.findById(id, function(err, schedule) {
+        if (!err) {
+            var json = new JsonResponse(schedule, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, null);
+            res.json(json);
+        }else{
+            var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to retrieve schedule");
+            res.json(json);
+        }
+    });
+});
+
+/**
+ * GET a list of all the offers by the given facebook ID
+ * */
+router.get('/me/drivers', ensureAuthenticated, function (req, res, next){
+
+    var id = req.user[0].facebookID;
+    var username = req.user[0].username;
+
+    var driverID = id + ":" + username
+    Schedule.find({
+        type: "Offer A Ride",
+        driverID: driverID
+    },function(err, drivers_schedules) {
+        if (err) {
+            var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to find schedule");
+            res.json(json);
+        } else {
+            var json = new JsonResponse(drivers_schedules, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, null);
+            res.json(json);
+        }
+    })
+});
+
 /**
  * Get all the drivers' schedules.
  */
