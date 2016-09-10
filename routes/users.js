@@ -44,11 +44,7 @@ router.put('/', ensureAuthenticated, function(req, res, next){
     console.log(data[key]);
     user[key] = data[key];
   }
-  console.log(user);
-  var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
-  res.json(json);
-  return
-
+  
   User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
     if (err) return res.send({error: err});
     var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
