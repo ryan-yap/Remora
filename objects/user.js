@@ -12,7 +12,7 @@ var userDB = db.model('User', new Schema({
     rating: {type:Number, required:true, unique:false},
     rideCompleted:{type:Number, required:true, unique:false},
     address: {type: String, required: false, unique:false},
-    email:{type: String, required:false, unique:false},
+    display_name:{type: String, required:false, unique:false},
     phone_number:{type: String, required: false, unique: false},
     credit:{type: Number, required: true, unique: false},
     driverProfile:{type:Boolean, required:true, unique:false}

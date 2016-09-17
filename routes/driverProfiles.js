@@ -22,7 +22,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.get('/',ensureAuthenticated,function(req, res, next){
-    var id = req.user[0].facebookID;
+    var id = req.user.facebookID;
     DriverProfile.findById(id, function(err, driverProfile) {
         if (!err) {
             console.log("Retrieving driver profile with ID = " + id);
@@ -53,7 +53,7 @@ router.get('/:id',ensureAuthenticated,function(req, res, next){
 
 router.post('/',ensureAuthenticated, validateData, function(req, res, next){
     var data = req.validatedData;
-    var user = req.user[0];
+    var user = req.user;
 
     var d = DriverProfile.find({_id:user.facebookID}, function(error, curr_data) {
         if(curr_data.length <= 0) { // check to make sure only unique entries are entered

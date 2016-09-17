@@ -214,9 +214,9 @@ router.get('/:id', ensureAuthenticated, function (req, res, next){
  * GET a list of all the request by given facebook ID
  * */
 router.get('/me/passengers', ensureAuthenticated, function (req, res, next){
-    var id = req.user[0].facebookID;
+    var id = req.user.facebookID;
 
-    Schedule.findById(id, function(err, schedule) {
+    Schedule.find({driverID:new RegExp(id + ":.*")}, function(err, schedule) {
         if (!err) {
             var json = new JsonResponse(schedule, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, null);
             res.json(json);
@@ -231,14 +231,13 @@ router.get('/me/passengers', ensureAuthenticated, function (req, res, next){
  * GET a list of all the offers by the given facebook ID
  * */
 router.get('/me/drivers', ensureAuthenticated, function (req, res, next){
+    var id = req.user.facebookID;
+    var username = req.user.username;
 
-    var id = req.user[0].facebookID;
-    var username = req.user[0].username;
-
-    var driverID = id + ":" + username
+    var driverID = id;
     Schedule.find({
-        type: "Offer A Ride",
-        driverID: driverID
+        type: "Need A Ride",
+        passengers: new RegExp(id + ":.*")
     },function(err, drivers_schedules) {
         if (err) {
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Error: Unable to find schedule");
@@ -289,13 +288,13 @@ router.get('/all/passengers', ensureAuthenticated, function(req, res, next){
  */
 router.post('/', ensureAuthenticated, function(req, res, next) {
     var data = req.body;
-    var passengers = [];
-    if(data.passengerID != null){
-        passengers.push(data.passengerID);
-    }
+    //var passengers = [];
+    // if(data.passengerID != null){
+    //     passengers.push(data.passengerID);
+    // }
 
     var newSchedule = new Schedule({
-        passengers: passengers,
+        passengers: data.passengerID,
         driverID : data.driverID,
         created_at: new Date().getTime(),
         time : new Date(data.time*1000).getTime(),
@@ -349,7 +348,7 @@ router.delete('/:id', ensureAuthenticated, function(req, res, next){
  */
 router.put('/accept/:id/driver', ensureAuthenticated, function(req, res, next){
     var id = req.params.id;
-    var userID = req.user[0]._id;
+    var userID = req.user._id;
     Schedule.findById(id, function(err, schedule) {
         if (err) {
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to modify schedule");
@@ -376,7 +375,7 @@ router.put('/accept/:id/driver', ensureAuthenticated, function(req, res, next){
  */
 router.put('/accept/:id/passenger', ensureAuthenticated, function(req, res, next){
     var id = req.params.id;
-    var userID = req.user[0]._id;
+    var userID = req.user._id;
     Schedule.findById(id, function(err, schedule) {
         if (err) {
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to modify schedule");

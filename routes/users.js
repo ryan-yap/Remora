@@ -11,7 +11,7 @@ var validData = [
 
 /* GET users listing. */
 router.get('/', ensureAuthenticated, function(req, res, next) {
-  var json = new JsonResponse(req.user[0], "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
+  var json = new JsonResponse(req.user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
 });
 
 /* GET users listing. */
@@ -28,22 +28,31 @@ router.get('/:id', ensureAuthenticated, function(req, res, next) {
   })
 });
 
+router.post('/social/facebook',passport.authenticate('facebook', { failureRedirect: '/' }),function(req, res, next) {
+  var user = req.user;
+  if(req.hasEnteredPhoneNumber){
+    var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, "Login Successful");
+    res.json(json);
+  }else{
+    var json = new JsonResponse(null, "user", "www.remoraapp.com" + req.originalUrl, req.method, "Phone Number Not Provided");
+    res.json(json);
+  }
+
+});
+
 router.post('/',passport.authenticate('signup', { failureRedirect: '/' }),function(req, res, next) {
   console.log("Creating Users");
-  var user = req.user[0];
+  var user = req.user;
   var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
   res.json(json);
 });
 
 router.put('/', ensureAuthenticated, function(req, res, next){
   data = req.body;
-  user = req.user[0];
-
+  user = req.user;
   for (var key in data){
-    console.log(data[key]);
     user[key] = data[key];
   }
-
   User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {
     if (err) return res.send({error: err});
     var json = new JsonResponse(user, "user", "www.remoraapp.com" + req.originalUrl, req.method, null);
@@ -52,7 +61,7 @@ router.put('/', ensureAuthenticated, function(req, res, next){
 });
 
 router.put('/ride', ensureAuthenticated, function(req, res, next){
-  user = req.user[0];
+  user = req.user;
   data = req.body;
   user.rideCompleted += 1;
   User.findOneAndUpdate({_id: user._id}, user, {upsert: true}, function (err, doc) {

@@ -99,5 +99,54 @@ passport.use('signup', new LocalStrategy({
     )
 );
 
+passport.use('facebook', new LocalStrategy({
+        usernameField: 'username',
+        passwordField: 'facebookID',
+        passReqToCallback : true
+    },
+    function(req, username, facebookID, done) {
+        console.log(username);
+        console.log(facebookID);
+        console.log(req.body.name);
+        var d = User.find({username:username, facebookID:facebookID}, function(error, curr_data) {
+            if(curr_data.length <= 0) { // check to make sure only unique entries are entered
+                // find a user in Mongo with provided username
+                var newUser = new User({
+                    username: username,
+                    facebookID: facebookID,
+                    created_at : new Date(),
+                    rating: 0,
+                    rideCompleted:0,
+                    address: "",
+                    display_name: req.body.name,
+                    credit:20,
+                    driverProfile:false,
+                    phone_number: ""
+                });
+                req.hasEnteredPhoneNumber = false;
+                newUser.save(function(err) {
+                    if (!err) {
+                        console.log(newUser);
+                        done(null, newUser);
+                    }else{
+                        console.log(err);
+                        console.log("User already exists! Provide a different username");
+                        return done(null, false);
+                    }
+                });
+            }else{
+                console.log(curr_data[0]);
+                var user = curr_data[0];
+                if(user.phone_number == ""){
+                    req.hasEnteredPhoneNumber = false
+                }else{
+                    req.hasEnteredPhoneNumber = true
+                }
+                done(null, curr_data[0]);
+            }
+        });
+    }
+    )
+);
 
 module.exports = passport;
