@@ -34,8 +34,8 @@ var scheduleDB = db.model('Schedule', new Schema({
         required: true,
         unique: false
     },
-    origin_address : {type : String, required: true, unique : false},
-    destination_address : {type : String, required: true, unique : false}
+    origin_address : {type : String, required: false, unique : false},
+    destination_address : {type : String, required: false, unique : false}
 }));
 
 module.exports = scheduleDB;
