@@ -348,7 +348,7 @@ router.delete('/:id', ensureAuthenticated, function(req, res, next){
  */
 router.put('/accept/:id/driver', ensureAuthenticated, function(req, res, next){
     var id = req.params.id;
-    var userID = req.user._id;
+    var userID = req.user.facebookID + ":" + req.user.display_name;
     Schedule.findById(id, function(err, schedule) {
         if (err) {
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to modify schedule");
@@ -375,7 +375,7 @@ router.put('/accept/:id/driver', ensureAuthenticated, function(req, res, next){
  */
 router.put('/accept/:id/passenger', ensureAuthenticated, function(req, res, next){
     var id = req.params.id;
-    var userID = req.user._id;
+    var userID = req.user.facebookID;
     Schedule.findById(id, function(err, schedule) {
         if (err) {
             var json = new JsonResponse(null, "schedule", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to modify schedule");
