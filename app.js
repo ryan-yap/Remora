@@ -14,6 +14,7 @@ var schedules = require('./routes/schedules');
 var reviews = require('./routes/reviews');
 var drivers = require('./routes/driverProfiles');
 var apns = require('./routes/apns');
+var notifications = require('./routes/notifications');
 
 var app = express();
 
@@ -57,6 +58,8 @@ app.use('/schedules', schedules);
 app.use('/reviews', reviews);
 app.use('/drivers', drivers);
 app.use('/apns', apns);
+app.use('/notifications', notifications);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

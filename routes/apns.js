@@ -16,13 +16,14 @@ var apnProvider = new apn.Provider(options);
 
 router.get('/:id', function(req, res, next){
     var id = req.params.id;
-    var message = "Test";
+    var payload = {message: "Hey, we've found you a driver"};
     var note = new apn.Notification({
-        alert:  { hello : "world"},
+        alert:  "Hey, we've found you a driver"
     });
     note.sound = "ping.aiff";
     note.badge = 1;
     note.topic = "com.remorapp.carpooling";
+    note.payload = payload;
     console.log(id);
     Token.findById(id, function(err, token) {
         if (token != null){
@@ -34,6 +35,7 @@ router.get('/:id', function(req, res, next){
                     var json = new JsonResponse(result, "apn", "www.remoraapp.com" + req.originalUrl, req.method, null);
                 res.json(json);
             });
+
             }else{
                 console.log(err);
                 var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to find token with ID");
@@ -48,44 +50,15 @@ router.get('/:id', function(req, res, next){
 
 router.post('/', ensureAuthenticated, function(req, res, next){
     var data = req.body;
-    var id = data.id;
-    var message = data.message;
-    var note = new apn.Notification({
-        alert:  message,
-    });
-    note.topic = "com.remorapp.carpooling";
-
-    Token.findById(id, function(err, token) {
-        if(token != null){
-            if (!err) {
-                var token = token.token;
-                var tokens = [token];
-                apnProvider.send(note, tokens).then( result => {
-                    var json = new JsonResponse(result, "apn", "www.remoraapp.com" + req.originalUrl, req.method, null);
-                res.json(json);
-            });
-            }else{
-                console.log(err);
-                var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to find token with ID");
-                res.json(json);
-            }
-        }else{
-            var json = new JsonResponse(null, "driverProfile", "www.remoraapp.com" + req.originalUrl, req.method, "Unable to find token with ID");
-            res.json(json);
-        }
-
-    });
-});
-
-router.post('/token', ensureAuthenticated, function(req, res, next){
-    var data = req.body;
     var id = req.user.facebookID;
     var token = data.token;
 
-    var d = Token.find({_id:id}, function(error, curr_data) {
+    console.log("facebookID is " + id);
+    var d = Token.findById(id, function(error, curr_data) {
         console.log(curr_data);
-        if (curr_data.length <= 0) { // check to make sure only unique entries are entered
+        if (curr_data == null) { // check to make sure only unique entries are entered
             // find a user in Mongo with provided username
+            console.log("Token not found");
             var newToken = new Token({
                 _id: id,
                 token: token
@@ -103,6 +76,7 @@ router.post('/token', ensureAuthenticated, function(req, res, next){
                 }
             });
         }else{
+            console.log("Token found");
             var newToken = new Token({
                 _id: id,
                 token: token
